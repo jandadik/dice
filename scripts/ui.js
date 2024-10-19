@@ -33,7 +33,7 @@ function clearDiceImages(eval) {
     }
 }
 /**
- * 
+ * Maze konkretni jedno pole hozene kostky, vymaze formatovani a obrazek
  * @param {*} diceId 
  */
 function clearRolledDice(diceId) {
@@ -42,7 +42,10 @@ function clearRolledDice(diceId) {
     diceToClear.removeEventListener('click', diceEvalMove);
     diceToClear.classList.remove('diceBorderGreen');
 }
-
+/**
+ * Pro konkrerniho hrace vytvari OL seznam s historii jeho hodu a vklada ho do spodni casti hraci plochy
+ * @param {*} playerNr 
+ */
 function addItemToList(playerNr) {
     console.log("Player: " + ('olPlayer' + (playerNr+1)));
     let list = document.getElementById('olPlayer' + (playerNr+1));
