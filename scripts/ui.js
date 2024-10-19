@@ -21,6 +21,10 @@ function showDiceImages(arrayToShow, eval) {
         }
     }
 }
+/**
+ * Odstrani vsechny obrazky kostek z hraci plochy
+ * @param {*} eval 
+ */
 function clearDiceImages(eval) {
     let idDice = (eval)? "eDice" : "dice";
     for (let i = 0; i < 6; i++) {
