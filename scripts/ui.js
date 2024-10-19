@@ -90,6 +90,9 @@ function setMultiplayerState() {
         newGame();
     });
 }
+/**
+ * Funkce zav9r8 okno Game Over
+ */
 function closeGameOver() {
     document.getElementById('gameover').style.display = 'none';
 }
