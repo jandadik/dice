@@ -1,0 +1,261 @@
+:root {
+  --dice-bg-color: bisque;
+  --dice-border-color: brown;
+  --dice-size: 40px;
+  --dice-margin: 5px;
+  --button-bg-color: #4CAF50;
+  --button-bg-hover-color: #45a049;
+  --button-text-color: white;
+  --button-disabled-bg-color: #cccccc;
+  --button-disabled-text-color: #666666;
+  --footer-bg-color: #f8f8f8;
+  --footer-text-color: #888888;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--button-bg-hover-color);
+}
+button:hover:not(:disabled) {
+  background-color: var(--button-bg-hover-color);
+}
+button:disabled {
+  background-color: var(--button-disabled-bg-color);
+  color: var(--button-disabled-text-color);
+  cursor: not-allowed;
+}
+
+.dice-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.diceBorder {
+  width: var(--dice-size);
+  height: var(--dice-size);
+  margin: var(--dice-margin);
+  background-color: var(--dice-bg-color);
+  border: 1px solid var(--dice-border-color);
+  border-radius: 5px;
+}
+
+.diceBorderGreen {
+  background-color: green;
+}
+
+.score-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#round-scores {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#round-scores h3 {
+  margin-bottom: 0px;
+}
+  
+/* Kontejner pro seznamy prubezneho score */
+.lists-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.lists-container > div {
+  min-width: 150px; 
+}
+
+.lists-container h4 {
+  margin-bottom: 10px;
+}
+
+.lists-container ol {
+  padding-left: 20px;
+  margin: 0; 
+  list-style-type: none;
+  text-align: left; 
+}
+
+footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  background-color: var(--footer-bg-color);
+  color: var(--footer-text-color);
+  text-align: center;
+  font-size: 0.9em;
+  border-top: 1px solid #e0e0e0;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+  
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--button-bg-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.multiplayer-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.multiplayer-label {
+  font-weight: bold;
+}
+
+#gameover {
+  display: none; /* Výchozí nastavení */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 90%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+  overflow: auto;
+}
+
+.gameover-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#gameover h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+#goWinner, #goScore {
+  font-size: 2.5em;
+  margin: 10px 0;
+}
+
+#goClose {
+  background-color: var(--button-bg-color);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 20px 2px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#goClose:hover {
+  background-color: var(--button-bg-hover-color);
+}
+
+
+/* @media (max-width: 600px) {
+    #dice, .contejner {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-container {
+        flex-direction: column;
+    }
+          #round-scores .lists-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #round-scores .lists-container > div {
+    width: 100%;
+    max-width: 300px;
+  }
+} */

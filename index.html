@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hra kostky</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Kostky</h1>
+    </header>
+    <div id="gameover" style="display: none;">
+        <div class="gameover-content">
+            <h2>Game Over!</h2>
+            <div id="goPlayer" style="display: none;">
+                <h2>Výherce</h2>
+                <p id="goWinner">Hrac 1</p>
+            </div>
+            <h2>Skore</h2>
+            <p id="goScore">10500 bodu v 15. kole</p>
+            <h2>GRATULACE!!!</h2>
+            <button id="goClose">Zavřít</button>
+        </div>
+    </div>
+    <div class="button-container">
+        <button id="newGame">Nová hra</button>
+        <div class="multiplayer-control">
+            <span class="multiplayer-label">Multiplayer:</span>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+    <main>
+        <section class="score-section">
+            <h2 id="h2Player" style="display: none;">Player</h2>
+            <h2>Skore: <span id="totalScore"></span></h2>
+        </section>
+        <section id="dice" class="dice-container">
+            <div id="dice1" class="diceBorder"></div>
+            <div id="dice2" class="diceBorder"></div>
+            <div id="dice3" class="diceBorder"></div>
+            <div id="dice4" class="diceBorder"></div>
+            <div id="dice5" class="diceBorder"></div>
+            <div id="dice6" class="diceBorder"></div>
+        </section>
+
+        <div class="button-container">
+            <button id="play">Házej</button>
+            <button id="playAgain" disabled>Házej znovu</button>
+            <button id="takeAll" disabled>Beru vše</button>
+        </div>
+
+        <section id="eDice" class="dice-container">
+            <div id="eDice1" class="diceBorder"></div>
+            <div id="eDice2" class="diceBorder"></div>
+            <div id="eDice3" class="diceBorder"></div>
+            <div id="eDice4" class="diceBorder"></div>
+            <div id="eDice5" class="diceBorder"></div>
+            <div id="eDice6" class="diceBorder"></div>
+        </section>
+
+        <section class="score-section">
+            <h2>Skore hodu: <span id="rollScore"></span></h2>
+            <h2>Skore kola: <span id="roundScore"></span></h2>
+        </section>
+
+        <div class="button-container">
+            <button id="writeScore" disabled>Zapiš</button>
+            <button id="nextRound" disabled>Další kolo</button>
+        </div>
+
+        <section id="round-scores">
+            <h3>Průběžné skóre kol:</h3>
+            <div class="lists-container">
+                <div id="divPlayer1" style="display: block;">
+                  <h4 id="h4Player1" style="display: none;">Player 1</h4>
+                  <ol id="olPlayer1">
+                    <!-- skóre pro Player 1 -->                     
+                  </ol>
+                </div>
+                <div id="divPlayer2" style="display: none;">
+                  <h4 id="h4Player2">Player 2</h4>
+                  <ol id="olPlayer2">
+                    <!-- skóre pro Player 2 -->
+                  </ol>
+                </div>
+              </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Hra kostky. Verze 0.5</p>
+    </footer>
+    <script src="./scripts/function.js"></script>
+    <script src="./scripts/evaluate.js"></script>
+    <script src="./scripts/ui.js"></script>
+    <script src="./scripts/script.js"></script>
+</body>
+</html>
