@@ -91,7 +91,7 @@ function setMultiplayerState() {
     });
 }
 /**
- * Funkce zav9r8 okno Game Over
+ * Funkce zavira okno Game Over
  */
 function closeGameOver() {
     document.getElementById('gameover').style.display = 'none';
