@@ -1,3 +1,24 @@
+// Constants
+const STRAIGHT_SCORE = 1500;
+const COUPLES_SCORE = 1000;
+
+// Score maps
+const SCORE_MAP_15 = {
+    6: 8000,
+    5: 4000,
+    4: 2000,
+    3: 1000,
+    2: 200,
+    1: 100
+};
+
+const SCORE_MAP_2346 = {
+    6: 800,
+    5: 400,
+    4: 200,
+    3: 100
+};
+
 function evaluate(evalArray, kzFce) {
     kzFce = kzFce;
     rollScore = 0;
@@ -24,7 +45,7 @@ function evaluate(evalArray, kzFce) {
     if (straightCount === 6) {
         //console.log('straight');
         straight = true;
-        rollScore += 1500;
+        rollScore += STRAIGHT_SCORE;
         if (rollScore > 0 || kzFce === 1) {
             paintWinDice([0,1,2,3,4,5]);
         }
@@ -32,7 +53,7 @@ function evaluate(evalArray, kzFce) {
         //console.log('couples');
         couples = true;
         if (allDicesSum === 0) {
-            rollScore += 1000;
+            rollScore += COUPLES_SCORE;
             if (rollScore > 0 || kzFce === 1) {
                 paintWinDice([0,1,2,3,4,5]);
             }
