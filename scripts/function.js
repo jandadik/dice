@@ -28,11 +28,11 @@ function rollSingleDice() {
  * @returns {number[]} diceArray
  */
 function rollDice(countDice) {
-    diceArray = [];
+    gameState.diceArray = [];
     for (let i = 0; i < countDice; i++) {
-        diceArray.push(rollSingleDice());
+        gameState.diceArray.push(rollSingleDice());
     }
     //console.log("diceArray: " + diceArray);
-    showDiceImages(diceArray);
-    return diceArray;
+    showDiceImages(gameState.diceArray);
+    return gameState.diceArray;
 }

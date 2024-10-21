@@ -55,11 +55,11 @@ function addItemToList(playerNr) {
     let list = document.getElementById('olPlayer' + (playerNr+1));
     list.innerHTML = '';
     let totalScoreList = 0;
-    for (let i = 0; i < totalScoreArray[playerNr].length; i++) {
-        totalScoreList += totalScoreArray[playerNr][i];
+    for (let i = 0; i < gameState.totalScoreArray[playerNr].length; i++) {
+        totalScoreList += gameState.totalScoreArray[playerNr][i];
         let item = document.createElement('li');
         let textNode = document.createElement('p');
-        textNode.textContent = (i +1) + ". kolo: " + totalScoreArray[playerNr][i] + ", skore celkem: " + totalScoreList;
+        textNode.textContent = (i +1) + ". kolo: " + gameState.totalScoreArray[playerNr][i] + ", skore celkem: " + totalScoreList;
         item.append(textNode);
         list.append(item);
     }
@@ -71,21 +71,21 @@ function setMultiplayerState() {
     const switchElement = document.querySelector('.switch input[type="checkbox"]');
     
     // Nastavení počátečního stavu
-    multiplayer = switchElement.checked ? 1 : 0;
-    console.log('Počáteční stav multiplayer:', multiplayer);
+    gameState.multiplayer = switchElement.checked ? 1 : 0;
+    console.log('Počáteční stav multiplayer:', gameState.multiplayer);
 
     // Přidání event listeneru pro změny
     switchElement.addEventListener('change', function() {
-        multiplayer = this.checked ? true : false;
-        console.log('Nový stav multiplayer:', multiplayer);
-        document.getElementById('h2Player').style.display = multiplayer? 'block' : 'none';
-        document.getElementById('h4Player1').style.display = multiplayer? 'block' : 'none';
-        document.getElementById('divPlayer2').style.display = multiplayer? 'block' : 'none';
-        if (multiplayer) {
-            totalScore[0][0] = getPlayerName(1);
-            totalScore[1][0] = getPlayerName(2);
-            document.getElementById('h4Player1').textContent = totalScore[0][0];
-            document.getElementById('h4Player2').textContent = totalScore[1][0];
+        gameState.multiplayer = this.checked ? true : false;
+        console.log('Nový stav multiplayer:', gameState.multiplayer);
+        document.getElementById('h2Player').style.display = gameState.multiplayer? 'block' : 'none';
+        document.getElementById('h4Player1').style.display = gameState.multiplayer? 'block' : 'none';
+        document.getElementById('divPlayer2').style.display = gameState.multiplayer? 'block' : 'none';
+        if (gameState.multiplayer) {
+            gameState.totalScore[0][0] = getPlayerName(1);
+            gameState.totalScore[1][0] = getPlayerName(2);
+            document.getElementById('h4Player1').textContent = gameState.totalScore[0][0];
+            document.getElementById('h4Player2').textContent = gameState.totalScore[1][0];
         }
         newGame();
     });

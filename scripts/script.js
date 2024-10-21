@@ -1,22 +1,48 @@
-let diceArray = [2,2,2,1,1,1]; // pole pro hodnoty kostek
-let rollKz = 1; // 0 - pouzije se v 1. kole vychozich hodnot pole diceArray, 1 - pole diceArray je vyplneny nahodnymi hodnotami
-let evalDiceArray = []; // pole pro hodnoty kostek, ktere byly vyhodnoceny
-let diceArrayTmp = [];
-let straight = false;
-let couples = false;
-let allDicesSum = 0;
-let checkNr = [];
-let roundScore = 0;
-let player = 0;
-let totalScore = [["Hrac 1",0],["Hrac 2",0]];
-let totalScoreArray = [[],[]];
-let rollScore = 0;
-const minRoundScore = 350;
-const minWinScore = 10000;
-let kzFce = 0;
-let marked = 0;
-let credited = 0;
-let multiplayer = false;
+// Constants
+const MIN_ROUND_SCORE = 350;
+const MIN_WIN_SCORE = 10000;
+const INITIAL_DICE_COUNT = 6;
+
+// Game state
+let gameState = {
+    diceArray: [2, 2, 2, 1, 1, 1],
+    rollKz: 1,
+    evalDiceArray: [],
+    diceArrayTmp: [],
+    straight: false,
+    couples: false,
+    allDicesSum: 0,
+    checkNr: [],
+    roundScore: 0,
+    player: 0,
+    totalScore: [["Hráč 1", 0], ["Hráč 2", 0]],
+    totalScoreArray: [[], []],
+    rollScore: 0,
+    kzFce: 0,
+    marked: 0,
+    credited: 0,
+    multiplayer: false
+};
+
+// let diceArray = [1,2,3,4,5,6]; // pole pro hodnoty kostek
+// let rollKz = 0; // 0 - pouzije se v 1. kole vychozich hodnot pole diceArray, 1 - pole diceArray je vyplneny nahodnymi hodnotami
+// let evalDiceArray = []; // pole pro hodnoty kostek, ktere byly vyhodnoceny
+// let diceArrayTmp = [];
+// let straight = false;
+// let couples = false;
+// let allDicesSum = 0;
+// let checkNr = [];
+// let roundScore = 0;
+// let player = 0;
+// let totalScore = [["Hrac 1",0],["Hrac 2",0]];
+// let totalScoreArray = [[],[]];
+// let rollScore = 0;
+// const minRoundScore = 350;
+// const minWinScore = 10000;
+// let kzFce = 0;
+// let marked = 0;
+// let credited = 0;
+// let multiplayer = false;
 
 document.getElementById("newGame").addEventListener("click", newGameClick);
 document.getElementById("goClose").addEventListener("click", closeGameOver);
@@ -36,26 +62,26 @@ btnNextRound.addEventListener('click', restoreGame);
 btnTakeAll.addEventListener('click', takeAll);
 
 function newGame() {
-    if (multiplayer) {
-        evalDiceArray = [];
-        diceArrayTmp = [];
-        straight = false;
-        couples = false;
-        allDicesSum = 0;
-        checkNr = [];
-        roundScore = 0;
-        player = 0;
-        totalScore[0][1] = 0;
-        totalScore[1][1] = 0;
-        totalScoreArray = [[],[]];
-        rollScore = 0;
-        kzFce = 0;
-        marked = 0;
-        credited = 0;
+    if (gameState.multiplayer) {
+        gameState.evalDiceArray = [];
+        gameState.diceArrayTmp = [];
+        gameState.straight = false;
+        gameState.couples = false;
+        gameState.allDicesSum = 0;
+        gameState.checkNr = [];
+        gameState.roundScore = 0;
+        gameState.player = 0;
+        gameState.totalScore[0][1] = 0;
+        gameState.totalScore[1][1] = 0;
+        gameState.totalScoreArray = [[],[]];
+        gameState.rollScore = 0;
+        gameState.kzFce = 0;
+        gameState.marked = 0;
+        gameState.credited = 0;
         addItemToList(0);
         addItemToList(1);
-        document.getElementById("h2Player").textContent = totalScore[player][0];
-        document.getElementById("totalScore").textContent = totalScore[player][1];
+        document.getElementById("h2Player").textContent = gameState.totalScore[player][0];
+        document.getElementById("totalScore").textContent = gameState.totalScore[player][1];
         restoreGameBoard();
     } else {
         location.reload();
@@ -66,45 +92,45 @@ function newGameClick() {
     newGame();
 }
 function restoreRoll(){
-    document.getElementById("h2Player").textContent = totalScore[player][0];
-    document.getElementById("h4Player1").textContent = totalScore[0][0];
-    document.getElementById("h4Player2").textContent = totalScore[1][0];
-    straight = false;
-    couples = false;
-    allDicesSum = 0;
-    if (rollKz === 1) {
+    document.getElementById("h2Player").textContent = gameState.totalScore[gameState.player][0];
+    document.getElementById("h4Player1").textContent = gameState.totalScore[0][0];
+    document.getElementById("h4Player2").textContent = gameState.totalScore[1][0];
+    gameState.straight = false;
+    gameState.couples = false;
+    gameState.allDicesSum = 0;
+    if (gameState.rollKz === 1) {
         rollDice(6);
     } else {
-        rollKz=1;
-        showDiceImages(diceArray);
+        gameState.rollKz=1;
+        showDiceImages(gameState.diceArray);
     }
     btnPlay.disabled = true;
-    evaluate(diceArray, 1);
+    evaluate(gameState.diceArray, 1);
     evalRoll();
 }
 function play() {
-    roundScore = 0;
+    gameState.roundScore = 0;
     restoreRoll();
 }
 function playAgain() {
     console.log("playAgain");
-    console.log("allDicesSum: " + allDicesSum);
-    console.log("credited: " + credited);
-    if(allDicesSum < 6) {
-        evaluate(diceArrayTmp, 2);
-        if (credited === 0) {
-            roundScore += rollScore;
-            h2roundScore.textContent = roundScore;
+    console.log("allDicesSum: " + gameState.allDicesSum);
+    console.log("credited: " + gameState.credited);
+    if(gameState.allDicesSum < 6) {
+        evaluate(gameState.diceArrayTmp, 2);
+        if (gameState.credited === 0) {
+            gameState.roundScore += gameState.rollScore;
+            h2roundScore.textContent = gameState.roundScore;
         } else {
-            credited = 0;
+            gameState.credited = 0;
         }
-        diceArrayTmp = [];
-        rollDice(6-allDicesSum);
-        evaluate(diceArray, 1);
+        gameState.diceArrayTmp = [];
+        rollDice(6-gameState.allDicesSum);
+        evaluate(gameState.diceArray, 1);
         evalRoll();
     } else {
-        diceArrayTmp = [];
-        evalDiceArray = [];
+        gameState.diceArrayTmp = [];
+        gameState.evalDiceArray = [];
         clearDiceImages(true);
         restoreRoll();
     }
@@ -122,64 +148,64 @@ function restoreGameBoard() {
 }  
 function restoreGame() {
     restoreGameBoard();
-    evalDiceArray = [];
-    diceArrayTmp = [];
-    console.log("Player: " + player);
-    totalScore[player][1] += roundScore;
-    totalScoreArray[player].push(roundScore);
-    h2totalScore.textContent = totalScore[player][1];
-    document.getElementById("totalScore").textContent = totalScore[player][1];
-    addItemToList(player);
+    gameState.evalDiceArray = [];
+    gameState.diceArrayTmp = [];
+    console.log("Player: " + gameState.player);
+    gameState.totalScore[gameState.player][1] += gameState.roundScore;
+    gameState.totalScoreArray[gameState.player].push(gameState.roundScore);
+    h2totalScore.textContent = gameState.totalScore[gameState.player][1];
+    document.getElementById("totalScore").textContent = gameState.totalScore[gameState.player][1];
+    addItemToList(gameState.player);
     //console.log("Total score: " + totalScore[player][1]);
-    if (totalScore[player][1] >= minWinScore) {
-        if (multiplayer) {
-            document.getElementById("goWinner").textContent = totalScore[player][0];
-            document.getElementById("goScore").textContent = `${totalScore[player][1]} bodu v ${totalScoreArray[player].length}. kole`;
+    if (gameState.totalScore[gameState.player][1] >= MIN_WIN_SCORE) {
+        if (gameState.multiplayer) {
+            document.getElementById("goWinner").textContent = gameState.totalScore[gameState.player][0];
+            document.getElementById("goScore").textContent = `${gameState.totalScore[gameState.player][1]} bodu v ${gameState.totalScoreArray[gameState.player].length}. kole`;
             document.getElementById('goPlayer').style.display = 'block';
             document.getElementById('gameover').style.display = 'block';
             //alert(`Gratulace! Vyhral hrac ${totalScore[player][0]} v ${totalScoreArray[player].length}. kole s celkovym poctem ${totalScore[player][1]} bodu.`);
         } else {
-            document.getElementById("goScore").textContent = `${totalScore[player][1]} bodu v ${totalScoreArray[player].length}. kole`;
+            document.getElementById("goScore").textContent = `${gameState.totalScore[gameState.player][1]} bodu v ${gameState.totalScoreArray[gameState.player].length}. kole`;
             document.getElementById('gameover').style.display = 'block';
             //alert(`Gratulace! Vyhra v ${totalScoreArray[player].length}. kole s celkovym poctem ${totalScore[player][1]} bodu.`);
         }
         btnPlay.disabled = true;
     }
-    if (multiplayer) {
-        console.log("velikost total score: " + totalScore.length);
-        if (player < totalScore.length-1) {
+    if (gameState.multiplayer) {
+        console.log("velikost total score: " + gameState.totalScore.length);
+        if (player < gameState.totalScore.length-1) {
             player+= 1;
         }else {
             player = 0;
         }
-        console.log("Player: " + player);
-        document.getElementById("h2Player").textContent = totalScore[player][0];
-        document.getElementById("totalScore").textContent = totalScore[player][1];
+        console.log("Player: " + gameState.player);
+        document.getElementById("h2Player").textContent = gameState.totalScore[player][0];
+        document.getElementById("totalScore").textContent = gameState.totalScore[player][1];
     }
 }
 
 function evalRoll(){
-    console.log(`Roll score: ${rollScore}`);
-    console.log("Round score: " + roundScore);
-    //console.log("allDiceSum: " + allDicesSum);
+    console.log(`Roll score: ${gameState.rollScore}`);
+    console.log("Round score: " + gameState.roundScore);
+    //console.log("allDiceSum: " + gameState.allDicesSum);
     btnPlayAgain.disabled = false;
-    if (roundScore >= minRoundScore) {
+    if (gameState.roundScore >= MIN_ROUND_SCORE) {
         btnWriteScore.disabled = false;
     } else {
         btnNextRound.disabled = false;
     }
-    if (rollScore > 0) {
+    if (gameState.rollScore > 0) {
         btnTakeAll.disabled = false;
     }
-    if (rollScore === 0){
-        roundScore = 0;
-        rollScore = 0;
+    if (gameState.rollScore === 0){
+        gameState.roundScore = 0;
+        gameState.rollScore = 0;
         btnPlayAgain.disabled = true;
         btnWriteScore.disabled = true;
         btnNextRound.disabled = false;
     }
-    h2roundScore.textContent = roundScore;
-    h2rollScore.textContent = rollScore;
+    h2roundScore.textContent = gameState.roundScore;
+    h2rollScore.textContent = gameState.rollScore;
 }
 function takeAll() {
     for(let die = 0; die < 6; die++) {
@@ -202,22 +228,22 @@ function diceEvalMove(e,fce = 0) {
     clickId = parseInt(clickedDivId[clickedDivId.length - 1])-1;
     //console.log('ID kliknutého divu je:', clickedDivId);
     //console.log('Index kostky je:', clickId);
-    diceArrayTmp.push(parseInt(diceArray[clickId]));
-    evalDiceArray.push(parseInt(diceArray[clickId]));
-    diceArray.splice(clickId, 1, 9);
+    gameState.diceArrayTmp.push(parseInt(gameState.diceArray[clickId]));
+    gameState.evalDiceArray.push(parseInt(gameState.diceArray[clickId]));
+    gameState.diceArray.splice(clickId, 1, 9);
     //console.log('diceArray:', diceArray);
     //console.log('evalDiceArray:', evalDiceArray);
     //console.log('diceArrayTmp:', diceArrayTmp);
-    allDicesSum += 1;
+    gameState.allDicesSum += 1;
     //console.log(clickId, 'kostka byla odebrana');
     clearRolledDice(clickId);
-    showDiceImages(evalDiceArray, true);
+    showDiceImages(gameState.evalDiceArray, true);
     //console.log('allDicesSum:', allDicesSum);
     //console.log('marked:', marked);
-    if (marked === diceArrayTmp.length) {
-        roundScore += rollScore;
+    if (gameState.marked === gameState.diceArrayTmp.length) {
+        gameState.roundScore += gameState.rollScore;
         //rollScore = 0;
-        credited = 1;
+        gameState.credited = 1;
     }
     evalRoll();
 }

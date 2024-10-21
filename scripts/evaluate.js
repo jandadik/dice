@@ -21,9 +21,9 @@ const SCORE_MAP_2346 = {
 
 function evaluate(evalArray, kzFce) {
     kzFce = kzFce;
-    rollScore = 0;
-    marked = 0;
-    checkNr = [[],[],[],[],[],[]];
+    gameState.rollScore = 0;
+    gameState.marked = 0;
+    gameState.checkNr = [[],[],[],[],[],[]];
     straightCount = 0;
     couplesCount = 0;
     //console.log(`Eval array: ${evalArray}`);
@@ -31,40 +31,40 @@ function evaluate(evalArray, kzFce) {
         for (let i = 0; i < evalArray.length; i++) {
             if (evalArray[i] === dnr) {
                 //console.log(`dnr: ${dnr}`);
-                checkNr[dnr-1].push(i);
+                gameState.checkNr[dnr-1].push(i);
                 //console.log(`nove pole of ${dnr}s: ${checkNr}`);
             }
         }
-        if (checkNr[dnr-1].length === 2) {
+        if (gameState.checkNr[dnr-1].length === 2) {
             couplesCount++;
         }
-        if (checkNr[dnr-1].length === 1) {
+        if (gameState.checkNr[dnr-1].length === 1) {
             straightCount++;
         }
     }
     if (straightCount === 6) {
         //console.log('straight');
-        straight = true;
-        rollScore += STRAIGHT_SCORE;
-        if (rollScore > 0 || kzFce === 1) {
+        gameState.straight = true;
+        gameState.rollScore += STRAIGHT_SCORE;
+        if (gameState.rollScore > 0 || kzFce === 1) {
             paintWinDice([0,1,2,3,4,5]);
         }
     } else if (couplesCount === 3) {
         //console.log('couples');
-        couples = true;
-        if (allDicesSum === 0) {
-            rollScore += COUPLES_SCORE;
-            if (rollScore > 0 || kzFce === 1) {
+        gameState.couples = true;
+        if (gameState.allDicesSum === 0) {
+            gameState.rollScore += COUPLES_SCORE;
+            if (gameState.rollScore > 0 || kzFce === 1) {
                 paintWinDice([0,1,2,3,4,5]);
             }
         }
     }
-    if (!straight || !couples) {
+    if (!gameState.straight || !gameState.couples) {
         for (let dnr = 1; dnr < 7; dnr++) {
             if (dnr === 1 || dnr === 5) {
-                checkNr15(checkNr[dnr-1], dnr);
+                checkNr15(gameState.checkNr[dnr-1], dnr);
             } else if (dnr === 2 || dnr === 3 || dnr === 4 || dnr === 6) {
-                checkNr2346(checkNr[dnr-1], dnr);
+                checkNr2346(gameState.checkNr[dnr-1], dnr);
             }
         }
     }
@@ -81,15 +81,15 @@ function checkNr15(nrDice, dnr) {
         2: 200,
         1: 100
     };
-    if (!straight && !couples && scoreMap[nrDice.length]) {
+    if (!gameState.straight && !gameState.couples && scoreMap[nrDice.length]) {
         diceScore += (scoreMap[nrDice.length]/divider);
         if (nrDice.length === 6) {
             allDices = true;
         }
-        rollScore += diceScore;
+        gameState.rollScore += diceScore;
         //console.log(`${dnr}s: ${diceScore}`);
     }
-    if (diceScore > 0 || kzFce === 1) {
+    if (diceScore > 0 || gameState.kzFce === 1) {
         paintWinDice(nrDice);
     }
 }
@@ -102,16 +102,16 @@ function checkNr2346(nrDice, dnr) {
         3: 100
     };
     // Ověření a přidání skóre podle délky `nrDice`
-    if (!straight && !couples && scoreMap[nrDice.length]) {
+    if (!gameState.straight && !gameState.couples && scoreMap[nrDice.length]) {
         diceScore += scoreMap[nrDice.length] * dnr;
         if (nrDice.length === 6) {
             allDices = true;
         }
-        rollScore += diceScore;
+        gameState.rollScore += diceScore;
         //console.log(`${dnr}s: ${diceScore}`);
     }
     // Aplikace efektu na všechny prvky v `nrDice`
-    if (diceScore > 0 || kzFce === 1) {
+    if (diceScore > 0 || gameState.kzFce === 1) {
         paintWinDice(nrDice);
     }
 }
@@ -120,6 +120,6 @@ function paintWinDice(nrDice) {
         const clickDice = document.getElementById(`dice${die + 1}`);
         clickDice.classList.add('diceBorderGreen');
         clickDice.addEventListener('click', diceEvalMove);
-        marked += 1;
+        gameState.marked += 1;
     });
 }
