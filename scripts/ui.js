@@ -10,16 +10,16 @@ function showDiceImages(arrayToShow, eval) {
         idElement = "dice";
         idImage = "diceImg";
     }
-    for (let i = 0; i < arrayToShow.length; i++) {
-        if (arrayToShow[i] !== 9) {
-            diceBorder = document.getElementById(idElement + (i+1));
+    arrayToShow.forEach((element, index) => {
+        if (element !== 9) {
+            diceBorder = document.getElementById(idElement + (index+1));
             const dice = document.createElement('img');
-            dice.src = 'images/' + arrayToShow[i] + '.png';
+            dice.src = 'images/' + element + '.png';
             dice.style.width = '40px';
-            dice.id = idImage + (i+1);
+            dice.id = idImage + (index+1);
             diceBorder.appendChild(dice);
         }
-    }
+    });
 }
 /**
  * Odstrani vsechny obrazky kostek z hraci plochy
