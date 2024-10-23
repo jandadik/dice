@@ -51,7 +51,7 @@ function clearRolledDice(diceId) {
  * @param {*} playerNr 
  */
 function addItemToList(playerNr) {
-    console.log("Player: " + ('olPlayer' + (playerNr+1)));
+    //console.log("Player: " + ('olPlayer' + (playerNr+1)));
     let list = document.getElementById('olPlayer' + (playerNr+1));
     list.innerHTML = '';
     let totalScoreList = 0;
@@ -72,7 +72,7 @@ function setMultiplayerState() {
     
     // Nastavení počátečního stavu
     gameState.multiplayer = switchElement.checked ? 1 : 0;
-    console.log('Počáteční stav multiplayer:', gameState.multiplayer);
+    //console.log('Počáteční stav multiplayer:', gameState.multiplayer);
 
     // Přidání event listeneru pro změny
     switchElement.addEventListener('change', function() {
