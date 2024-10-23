@@ -78,14 +78,17 @@ function setMultiplayerState() {
     switchElement.addEventListener('change', function() {
         gameState.multiplayer = this.checked ? true : false;
         console.log('Nový stav multiplayer:', gameState.multiplayer);
+        domElements.h2Player.style.display = gameState.multiplayer? 'block' : 'none';
+        domElements.h4Player1.style.display = gameState.multiplayer? 'block' : 'none';
+        domElements.divPlayer2.style.display = gameState.multiplayer? 'block' : 'none';
         document.getElementById('h2Player').style.display = gameState.multiplayer? 'block' : 'none';
         document.getElementById('h4Player1').style.display = gameState.multiplayer? 'block' : 'none';
         document.getElementById('divPlayer2').style.display = gameState.multiplayer? 'block' : 'none';
         if (gameState.multiplayer) {
             gameState.totalScore[0][0] = getPlayerName(1);
             gameState.totalScore[1][0] = getPlayerName(2);
-            document.getElementById('h4Player1').textContent = gameState.totalScore[0][0];
-            document.getElementById('h4Player2').textContent = gameState.totalScore[1][0];
+            domElements.h4Player1.textContent = gameState.totalScore[0][0];
+            domElements.h4Player2.textContent = gameState.totalScore[1][0];
         }
         newGame();
     });
@@ -94,5 +97,5 @@ function setMultiplayerState() {
  * Funkce zavira okno Game Over
  */
 function closeGameOver() {
-    document.getElementById('gameover').style.display = 'none';
+    domElements.gameover.style.display = 'none';
 }

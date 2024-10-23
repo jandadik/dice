@@ -24,42 +24,39 @@ let gameState = {
     multiplayer: false
 };
 
-// let diceArray = [1,2,3,4,5,6]; // pole pro hodnoty kostek
-// let rollKz = 0; // 0 - pouzije se v 1. kole vychozich hodnot pole diceArray, 1 - pole diceArray je vyplneny nahodnymi hodnotami
-// let evalDiceArray = []; // pole pro hodnoty kostek, ktere byly vyhodnoceny
-// let diceArrayTmp = [];
-// let straight = false;
-// let couples = false;
-// let allDicesSum = 0;
-// let checkNr = [];
-// let roundScore = 0;
-// let player = 0;
-// let totalScore = [["Hrac 1",0],["Hrac 2",0]];
-// let totalScoreArray = [[],[]];
-// let rollScore = 0;
-// const minRoundScore = 350;
-// const minWinScore = 10000;
-// let kzFce = 0;
-// let marked = 0;
-// let credited = 0;
-// let multiplayer = false;
+// DOM Elements
+const domElements = {
+    newGame: document.getElementById("newGame"),
+    goClose: document.getElementById("goClose"),
+    btnPlay: document.getElementById('play'),
+    btnPlayAgain: document.getElementById('playAgain'),
+    btnWriteScore: document.getElementById('writeScore'),
+    btnNextRound: document.getElementById('nextRound'),
+    h2roundScore: document.getElementById('roundScore'),
+    h2totalScore: document.getElementById('totalScore'),
+    h2rollScore: document.getElementById('rollScore'),
+    btnTakeAll: document.getElementById('takeAll'),
+    h2Player: document.getElementById("h2Player"),
+    h4Player1: document.getElementById("h4Player1"),
+    h4Player2: document.getElementById("h4Player2"),
+    goWinner: document.getElementById("goWinner"),
+    goScore: document.getElementById("goScore"),
+    goPlayer: document.getElementById('goPlayer'),
+    gameover: document.getElementById('gameover'),
+    divPlayer2: document.getElementById('divPlayer2')
+};
 
-document.getElementById("newGame").addEventListener("click", newGameClick);
-document.getElementById("goClose").addEventListener("click", closeGameOver);
-const btnPlay = document.getElementById('play');
-const btnPlayAgain = document.getElementById('playAgain');
-const btnWriteScore = document.getElementById('writeScore');
-const btnNextRound = document.getElementById('nextRound');
-const h2roundScore = document.getElementById('roundScore');
-const h2totalScore = document.getElementById('totalScore');
-const h2rollScore = document.getElementById('rollScore');
-const btnTakeAll = document.getElementById('takeAll');
+// Event Listeners
+function addEventListeners() {
+    domElements.newGame.addEventListener("click", newGameClick);
+    domElements.goClose.addEventListener("click", closeGameOver);
+    domElements.btnPlay.addEventListener('click', play);
+    domElements.btnPlayAgain.addEventListener('click', playAgain);
+    domElements.btnWriteScore.addEventListener('click', restoreGame);
+    domElements.btnNextRound.addEventListener('click', restoreGame);
+    domElements.btnTakeAll.addEventListener('click', takeAll);
+}
 
-btnPlay.addEventListener('click', play);
-btnPlayAgain.addEventListener('click', playAgain);
-btnWriteScore.addEventListener('click', restoreGame);
-btnNextRound.addEventListener('click', restoreGame);
-btnTakeAll.addEventListener('click', takeAll);
 
 function newGame() {
     if (gameState.multiplayer) {
@@ -80,8 +77,8 @@ function newGame() {
         gameState.credited = 0;
         addItemToList(0);
         addItemToList(1);
-        document.getElementById("h2Player").textContent = gameState.totalScore[player][0];
-        document.getElementById("totalScore").textContent = gameState.totalScore[player][1];
+        domElements.h2Player.textContent = gameState.totalScore[gameState.player][0];
+        domElements.h2totalScore.textContent = gameState.totalScore[gameState.player][1];
         restoreGameBoard();
     } else {
         location.reload();
@@ -92,9 +89,9 @@ function newGameClick() {
     newGame();
 }
 function restoreRoll(){
-    document.getElementById("h2Player").textContent = gameState.totalScore[gameState.player][0];
-    document.getElementById("h4Player1").textContent = gameState.totalScore[0][0];
-    document.getElementById("h4Player2").textContent = gameState.totalScore[1][0];
+    domElements.h2Player.textContent = gameState.totalScore[gameState.player][0];
+    domElements.h4Player1.textContent = gameState.totalScore[0][0];
+    domElements.h4Player2.textContent = gameState.totalScore[1][0];
     gameState.straight = false;
     gameState.couples = false;
     gameState.allDicesSum = 0;
@@ -104,7 +101,7 @@ function restoreRoll(){
         gameState.rollKz=1;
         showDiceImages(gameState.diceArray);
     }
-    btnPlay.disabled = true;
+    domElements.btnPlay.disabled = true;
     evaluate(gameState.diceArray, 1);
     evalRoll();
 }
@@ -136,13 +133,13 @@ function playAgain() {
     }
 }    
 function restoreGameBoard() {
-    btnPlay.disabled = false;
-    h2roundScore.textContent = "0";
-    h2rollScore.textContent = "0";
-    btnPlayAgain.disabled = true;
-    btnTakeAll.disabled = true;
-    btnWriteScore.disabled = true;
-    btnNextRound.disabled = true;
+    domElements.btnPlay.disabled = false;
+    domElements.h2roundScore.textContent = "0";
+    domElements.h2rollScore.textContent = "0";
+    domElements.btnPlayAgain.disabled = true;
+    domElements.btnTakeAll.disabled = true;
+    domElements.btnWriteScore.disabled = true;
+    domElements.btnNextRound.disabled = true;
     clearDiceImages(true);
     clearDiceImages();
 }  
@@ -153,34 +150,33 @@ function restoreGame() {
     console.log("Player: " + gameState.player);
     gameState.totalScore[gameState.player][1] += gameState.roundScore;
     gameState.totalScoreArray[gameState.player].push(gameState.roundScore);
-    h2totalScore.textContent = gameState.totalScore[gameState.player][1];
-    document.getElementById("totalScore").textContent = gameState.totalScore[gameState.player][1];
+    domElements.h2totalScore.textContent = gameState.totalScore[gameState.player][1];
     addItemToList(gameState.player);
     //console.log("Total score: " + totalScore[player][1]);
     if (gameState.totalScore[gameState.player][1] >= MIN_WIN_SCORE) {
         if (gameState.multiplayer) {
-            document.getElementById("goWinner").textContent = gameState.totalScore[gameState.player][0];
-            document.getElementById("goScore").textContent = `${gameState.totalScore[gameState.player][1]} bodu v ${gameState.totalScoreArray[gameState.player].length}. kole`;
-            document.getElementById('goPlayer').style.display = 'block';
-            document.getElementById('gameover').style.display = 'block';
+            domElements.goWinner.textContent = gameState.totalScore[gameState.player][0];
+            domElements.goScore.textContent = `${gameState.totalScore[gameState.player][1]} bodu v ${gameState.totalScoreArray[gameState.player].length}. kole`;
+            domElements.goPlayer.style.display = 'block';
+            domElements.gameover.style.display = 'block';
             //alert(`Gratulace! Vyhral hrac ${totalScore[player][0]} v ${totalScoreArray[player].length}. kole s celkovym poctem ${totalScore[player][1]} bodu.`);
         } else {
-            document.getElementById("goScore").textContent = `${gameState.totalScore[gameState.player][1]} bodu v ${gameState.totalScoreArray[gameState.player].length}. kole`;
-            document.getElementById('gameover').style.display = 'block';
+            domElements.goScore.textContent = `${gameState.totalScore[gameState.player][1]} bodu v ${gameState.totalScoreArray[gameState.player].length}. kole`;
+            domElements.gameover.style.display = 'block';meover.style.display = 'block';
             //alert(`Gratulace! Vyhra v ${totalScoreArray[player].length}. kole s celkovym poctem ${totalScore[player][1]} bodu.`);
         }
-        btnPlay.disabled = true;
+        domElements.btnPlay.disabled = true;
     }
     if (gameState.multiplayer) {
         console.log("velikost total score: " + gameState.totalScore.length);
-        if (player < gameState.totalScore.length-1) {
-            player+= 1;
+        if (gameState.player < gameState.totalScore.length-1) {
+            gameState.player+= 1;
         }else {
-            player = 0;
+            gameState.player = 0;
         }
         console.log("Player: " + gameState.player);
-        document.getElementById("h2Player").textContent = gameState.totalScore[player][0];
-        document.getElementById("totalScore").textContent = gameState.totalScore[player][1];
+        domElements.h2Player.textContent = gameState.totalScore[gameState.player][0];
+        domElements.h2totalScore.textContent = gameState.totalScore[gameState.player][1];
     }
 }
 
@@ -188,31 +184,31 @@ function evalRoll(){
     console.log(`Roll score: ${gameState.rollScore}`);
     console.log("Round score: " + gameState.roundScore);
     //console.log("allDiceSum: " + gameState.allDicesSum);
-    btnPlayAgain.disabled = false;
+    domElements.btnPlayAgain.disabled = false;
     if (gameState.roundScore >= MIN_ROUND_SCORE) {
-        btnWriteScore.disabled = false;
+        domElements.btnWriteScore.disabled = false;
     } else {
-        btnNextRound.disabled = false;
+        domElements.btnNextRound.disabled = false;
     }
     if (gameState.rollScore > 0) {
-        btnTakeAll.disabled = false;
+        domElements.btnTakeAll.disabled = false;
     }
     if (gameState.rollScore === 0){
         gameState.roundScore = 0;
         gameState.rollScore = 0;
-        btnPlayAgain.disabled = true;
-        btnWriteScore.disabled = true;
-        btnNextRound.disabled = false;
+        domElements.btnPlayAgain.disabled = true;
+        domElements.btnWriteScore.disabled = true;
+        domElements.btnNextRound.disabled = false;
     }
-    h2roundScore.textContent = gameState.roundScore;
-    h2rollScore.textContent = gameState.rollScore;
+    domElements.h2roundScore.textContent = gameState.roundScore;
+    domElements.h2rollScore.textContent = gameState.rollScore;
 }
 function takeAll() {
     for(let die = 0; die < 6; die++) {
         const clickDice = document.getElementById(`dice${die + 1}`);
         clickDice.classList.contains('diceBorderGreen')? diceEvalMove(clickDice,1): console.log("nic") ;
     };
-    btnTakeAll.disabled = true;
+    domElements.btnTakeAll.disabled = true;
 }
 function diceEvalMove(e,fce = 0) {
     //console.log('Funkce:', fce);
@@ -248,4 +244,7 @@ function diceEvalMove(e,fce = 0) {
     evalRoll();
 }
 // Volání funkce po načtení DOM
-document.addEventListener('DOMContentLoaded', setMultiplayerState);
+document.addEventListener('DOMContentLoaded', () => {
+    setMultiplayerState();
+    addEventListeners();
+});
