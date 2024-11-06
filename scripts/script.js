@@ -1,6 +1,6 @@
 // Constants
 const MIN_ROUND_SCORE = 350;
-const MIN_WIN_SCORE = 10000;
+const MIN_WIN_SCORE = 100;
 const INITIAL_DICE_COUNT = 6;
 
 // Game state
@@ -210,7 +210,25 @@ function displayWinnerMessage() {
     } else {
         domElements.goScore.textContent = `${gameState.totalScore[gameState.player][1]} bodů v ${gameState.totalScoreArray[gameState.player].length}. kole`;
     }
+    console.log("Game over");   
+    gameOver();
+}
+function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+function gameOver(){
     domElements.gameover.style.display = 'block';
+    for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+            console.log("Confetti");
+            confetti({
+                angle: randomInRange(55, 125),
+                spread: randomInRange(50, 70),
+                particleCount: randomInRange(50, 100),
+                origin: { y: 0.6 },
+            });            
+        }, i*1000);
+    }
 }
 //new
 function switchPlayer() {
