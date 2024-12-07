@@ -1,6 +1,6 @@
 // Constants
 const MIN_ROUND_SCORE = 350;
-const MIN_WIN_SCORE = 100;
+const MIN_WIN_SCORE = 1000;
 const INITIAL_DICE_COUNT = 6;
 
 // Game state
